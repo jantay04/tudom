@@ -1,8 +1,8 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { SignedIn, UserButton } from '@clerk/nextjs';
+import { SignedIn, UserButton } from '@clerk/nextjs'
+import Image from 'next/image'
+import Link from 'next/link'
 
-import MobileNav from './MobileNav';
+import MobileNav from './MobileNav'
 
 const Navbar = () => {
   return (
@@ -12,11 +12,11 @@ const Navbar = () => {
           src="/icons/logo.svg"
           width={32}
           height={32}
-          alt="yoom logo"
+          alt="tudom logo"
           className="max-sm:size-10"
         />
         <p className="text-[26px] font-extrabold text-white max-sm:hidden">
-          YOOM
+          Tudom
         </p>
       </Link>
       <div className="flex-between gap-5">
