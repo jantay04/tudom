@@ -1,6 +1,7 @@
-import type { Config } from 'tailwindcss'
+/** @type {import('tailwindcss').Config} */
+import { withUt } from 'uploadthing/tw';
 
-const config = {
+module.exports = withUt({
   darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -8,7 +9,6 @@ const config = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
-  prefix: '',
   theme: {
     container: {
       center: true,
@@ -19,29 +19,64 @@ const config = {
     },
     extend: {
       colors: {
-        dark: {
-          1: '#1C1F2E',
-          2: '#161925',
-          3: '#252A41',
-          4: '#1E2757',
+        primary: {
+          500: '#624CF5',
+          50: ' #F6F8FD',
+          DEFAULT: '#624CF5',
+          foreground: 'hsl(var(--primary-foreground))',
         },
-        blue: {
-          1: '#0E78F9',
+        coral: {
+          500: '#15BF59',
         },
-        sky: {
-          1: '#C9DDFF',
-          2: '#ECF0FF',
-          3: '#F5FCFF',
+
+        grey: {
+          600: '#545454', // Subdued - color name in figma
+          500: '#757575',
+          400: '#AFAFAF', // Disabled - color name in figma
+          50: '#F6F6F6', // White Grey - color name in figma
         },
-        orange: {
-          1: '#FF742E',
+        black: '#000000',
+        white: '#FFFFFF',
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        foreground: 'hsl(var(--foreground))',
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
         },
-        purple: {
-          1: '#830EF9',
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
         },
-        yellow: {
-          1: '#F9A90E',
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
         },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+      },
+      fontFamily: {
+        poppins: ['var(--font-poppins)'],
+      },
+      backgroundImage: {
+        'dotted-pattern': "url('/assets/images/dotted-pattern.png')",
+        'hero-img': "url('/assets/images/hero.png')",
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
         'accordion-down': {
@@ -57,12 +92,7 @@ const config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
-      backgroundImage: {
-        hero: "url('/images/hero-background.png')",
-      },
     },
   },
   plugins: [require('tailwindcss-animate')],
-} satisfies Config;
-
-export default config;
+});

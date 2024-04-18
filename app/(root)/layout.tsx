@@ -1,13 +1,16 @@
-import { ReactNode } from 'react';
+import Footer from '@/components/shared/Footer'
+import Header from '@/components/shared/Header'
 
-import StreamVideoProvider from '@/providers/StreamClientProvider';
-
-const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
-  return (
-    <main>
-      <StreamVideoProvider>{children}</StreamVideoProvider>
-    </main>
-  );
-};
-
-export default RootLayout;
+export default function RootLayout({
+	children,
+}: {
+	children: React.ReactNode
+}) {
+	return (
+		<div className='flex h-screen flex-col'>
+			<Header />
+			<main className='flex-1'>{children}</main>
+			<Footer />
+		</div>
+	)
+}
