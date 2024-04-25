@@ -1,17 +1,14 @@
-import Search from '@/components/shared/Search'
-import { getOrdersByLessons } from '@/lib/actions/order.actions'
-import { IOrderItem } from '@/lib/database/models/order.model'
-import { formatDateTime, formatPrice } from '@/lib/utils'
-import { SearchParamProps } from '@/types'
+import { getOrdersByEvent } from '@/src/shared/lib/actions/order.actions'
+import { IOrderItem } from '@/src/shared/lib/database/models/order.model'
+import { formatDateTime, formatPrice } from '@/src/shared/lib/utils'
+import Search from '@/src/shared/shared/Search'
+import { SearchParamProps } from '@/src/shared/types'
 
 const Orders = async ({ searchParams }: SearchParamProps) => {
-	const lessonsId = (searchParams?.lessonsId as string) || ''
+	const eventId = (searchParams?.eventId as string) || ''
 	const searchText = (searchParams?.query as string) || ''
 
-	const orders = await getOrdersByLessons({
-		lessonsId,
-		searchString: searchText,
-	})
+	const orders = await getOrdersByEvent({ eventId, searchString: searchText })
 
 	return (
 		<>
@@ -29,7 +26,7 @@ const Orders = async ({ searchParams }: SearchParamProps) => {
 						<tr className='p-medium-14 border-b text-grey-500'>
 							<th className='min-w-[250px] py-3 text-left'>Order ID</th>
 							<th className='min-w-[200px] flex-1 py-3 pr-4 text-left'>
-								Lessons Title
+								Event Title
 							</th>
 							<th className='min-w-[150px] py-3 text-left'>Buyer</th>
 							<th className='min-w-[100px] py-3 text-left'>Created</th>
@@ -56,7 +53,7 @@ const Orders = async ({ searchParams }: SearchParamProps) => {
 												{row._id}
 											</td>
 											<td className='min-w-[200px] flex-1 py-4 pr-4'>
-												{row.lessonsTitle}
+												{row.eventTitle}
 											</td>
 											<td className='min-w-[150px] py-4'>{row.buyer}</td>
 											<td className='min-w-[100px] py-4'>

@@ -4,9 +4,8 @@ import { useUser } from '@clerk/nextjs'
 import { StreamVideo, StreamVideoClient } from '@stream-io/video-react-sdk'
 import { ReactNode, useEffect, useState } from 'react'
 
-import { tokenProvider } from '@/actions/stream.actions'
-import Loader from '@/components/shared/Loader'
-// import Loader from '@/components/Loader'
+import Loader from '@/src/entities/Loader'
+import { tokenProvider } from '@/src/shared/lib/actions/stream.actions'
 
 const API_KEY = process.env.NEXT_PUBLIC_STREAM_API_KEY
 

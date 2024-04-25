@@ -1,6 +1,6 @@
-import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
+import { ClerkProvider } from '@clerk/nextjs'
 
 import './globals.css'
 
@@ -12,7 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
 	title: 'Tudom',
-	description: 'Tudom is a platform...',
+	description: 'Tudom is a platform for event management.',
 	icons: {
 		icon: '/assets/images/logo.svg',
 	},

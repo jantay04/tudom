@@ -1,6 +1,10 @@
-import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions'
+import {
+	createUser,
+	deleteUser,
+	updateUser,
+} from '@/src/shared/lib/actions/user.actions'
 import { clerkClient } from '@clerk/nextjs'
-import { WebhookLessons } from '@clerk/nextjs/server'
+import { WebhookEvent } from '@clerk/nextjs/server'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { Webhook } from 'svix'
@@ -35,7 +39,7 @@ export async function POST(req: Request) {
 	// Create a new Svix instance with your secret.
 	const wh = new Webhook(WEBHOOK_SECRET)
 
-	let evt: WebhookLessons
+	let evt: WebhookEvent
 
 	// Verify the payload with the headers
 	try {
@@ -43,7 +47,7 @@ export async function POST(req: Request) {
 			'svix-id': svix_id,
 			'svix-timestamp': svix_timestamp,
 			'svix-signature': svix_signature,
-		}) as WebhookLessons
+		}) as WebhookEvent
 	} catch (err) {
 		console.error('Error verifying webhook:', err)
 		return new Response('Error occured', {
@@ -53,9 +57,9 @@ export async function POST(req: Request) {
 
 	// Get the ID and type
 	const { id } = evt.data
-	const lessonsType = evt.type
+	const eventType = evt.type
 
-	if (lessonsType === 'user.created') {
+	if (eventType === 'user.created') {
 		const { id, email_addresses, image_url, first_name, last_name, username } =
 			evt.data
 
@@ -81,7 +85,7 @@ export async function POST(req: Request) {
 		return NextResponse.json({ message: 'OK', user: newUser })
 	}
 
-	if (lessonsType === 'user.updated') {
+	if (eventType === 'user.updated') {
 		const { id, image_url, first_name, last_name, username } = evt.data
 
 		const user = {
@@ -96,7 +100,7 @@ export async function POST(req: Request) {
 		return NextResponse.json({ message: 'OK', user: updatedUser })
 	}
 
-	if (lessonsType === 'user.deleted') {
+	if (eventType === 'user.deleted') {
 		const { id } = evt.data
 
 		const deletedUser = await deleteUser(id!)

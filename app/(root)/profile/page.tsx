@@ -1,9 +1,9 @@
-import Collection from '@/components/shared/Collection'
-import { Button } from '@/components/ui/button'
-import { getLessonsByUser } from '@/lib/actions/lesson.actions'
-import { getOrdersByUser } from '@/lib/actions/order.actions'
-import { IOrder } from '@/lib/database/models/order.model'
-import { SearchParamProps } from '@/types'
+import { getEventsByUser } from '@/src/shared/lib/actions/event.actions'
+import { getOrdersByUser } from '@/src/shared/lib/actions/order.actions'
+import { IOrder } from '@/src/shared/lib/database/models/order.model'
+import Collection from '@/src/shared/shared/Collection'
+import { SearchParamProps } from '@/src/shared/types'
+import { Button } from '@/src/shared/ui/button'
 import { auth } from '@clerk/nextjs'
 import Link from 'next/link'
 
@@ -12,19 +12,19 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
 	const userId = sessionClaims?.userId as string
 
 	const ordersPage = Number(searchParams?.ordersPage) || 1
-	const lessonsPage = Number(searchParams?.lessonsPage) || 1
+	const eventsPage = Number(searchParams?.eventsPage) || 1
 
 	const orders = await getOrdersByUser({ userId, page: ordersPage })
 
-	const orderedLessons = orders?.data.map((order: IOrder) => order.lesson) || []
-	const organizedLessons = await getLessonsByUser({ userId, page: lessonsPage })
+	const orderedEvents = orders?.data.map((order: IOrder) => order.event) || []
+	const organizedEvents = await getEventsByUser({ userId, page: eventsPage })
 
 	return (
 		<>
-			{/* My Tickets */}
-			<section className='bg-primary-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10'>
+			{/* My Lessons */}
+			<section className='py-5 md:py-10'>
 				<div className='wrapper flex items-center justify-center sm:justify-between'>
-					<h3 className='h3-bold text-center sm:text-left'>My Tickets</h3>
+					<h3 className='h3-bold text-center sm:text-left'>My Lessons</h3>
 					<Button asChild size='lg' className='button hidden sm:flex'>
 						<Link href='/#lessons'>Explore More Lessons</Link>
 					</Button>
@@ -33,8 +33,8 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
 
 			<section className='wrapper my-8'>
 				<Collection
-					data={orderedLessons}
-					emptyTitle='No lesson tickets purchased yet'
+					data={orderedEvents}
+					emptyTitle="You don't have planning lessons"
 					emptyStateSubtext='No worries - plenty of exciting lessons to explore!'
 					collectionType='My_Tickets'
 					limit={3}
@@ -44,28 +44,28 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
 				/>
 			</section>
 
-			{/* Lessons Organized */}
-			<section className='bg-primary-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10'>
+			{/* Events Organized */}
+			<section className='py-5 md:py-10'>
 				<div className='wrapper flex items-center justify-center sm:justify-between'>
 					<h3 className='h3-bold text-center sm:text-left'>
 						Lessons Organized
 					</h3>
 					<Button asChild size='lg' className='button hidden sm:flex'>
-						<Link href='/lessons/create'>Create New Lesson</Link>
+						<Link href='/lessons/create'>Create New lesson</Link>
 					</Button>
 				</div>
 			</section>
 
 			<section className='wrapper my-8'>
 				<Collection
-					data={organizedLessons?.data}
+					data={organizedEvents?.data}
 					emptyTitle='No lessons have been created yet'
 					emptyStateSubtext='Go create some now'
-					collectionType='Lessons_Organized'
+					collectionType='Events_Organized'
 					limit={3}
-					page={lessonsPage}
-					urlParamName='lessonsPage'
-					totalPages={organizedLessons?.totalPages}
+					page={eventsPage}
+					urlParamName='eventsPage'
+					totalPages={organizedEvents?.totalPages}
 				/>
 			</section>
 		</>
